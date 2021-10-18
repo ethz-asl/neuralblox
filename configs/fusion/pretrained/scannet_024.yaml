@@ -1,0 +1,40 @@
+inherit_from: configs/fusion/generate_fusion.yaml
+data:
+  input_type: pointcloud_crop
+  classes: ['']
+  path: /home/anonymous/data_scannet_024
+  intrinsics: /home/anonymous/data_scannet_024/camera-intrinsics.txt
+  data_preprocessed_interval: 1
+  align:
+    deg_x: 90
+    deg_y: 50
+    deg_z: 0
+    shift_vertical: 2.7
+    is_flip: True
+  pointcloud_sampling: 0.1
+  pointcloud_noise: 0.000
+  grid_resolution: 24
+  input_vol: 0.7 # in meter
+  query_vol: 0.5 # in meter
+test:
+  threshold: 0.05
+  model_file: pretrained_models/backbone/shapenet_grid24_pe.pt
+  merging_model_file: pretrained_models/fusion/Window8_Reso24_AllScenes.pt
+  out_dir: out_mesh
+  out_name: scennet-0.5voxel-50query
+  scene:
+    frame_sampling: 5
+    noise:
+      shift:
+        shift_std: 0
+        on_gravity: False
+      yaw_std: 0
+  export_pointcloud: False
+generation:
+  generation_dir: generation
+  resolution_0: 50 # resolution for each crop
+  voxel_threshold: 0.01
+  boundary_interpolation: True
+
+
+

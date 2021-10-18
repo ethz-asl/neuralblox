@@ -1,0 +1,59 @@
+method: neuralblox
+data:
+  dataset: Scenes3D
+  input_type: pointcloud_crop
+  classes: ['']
+  path: demo/redwood_apartment_13k
+  pointcloud_n: 10000
+  pointcloud_noise: 0.005
+  points_subsample: 1024
+  points_file: points_iou
+  points_iou_file: points_iou
+  pointcloud_file: pointcloud
+  pointcloud_chamfer_file: pointcloud
+  voxels_file: null
+  multi_files: 10
+  unit_size: 0.02
+  query_vol_size: 25
+model:
+  local_coord: True
+  encoder: pointnet_crop_local_pool_latent
+  encoder_kwargs:
+    hidden_dim: 32
+    plane_type: ['grid']
+    unet3d: True
+    unet3d_kwargs:
+      num_levels: 3 # define the receptive field, 3 -> 32, 4 -> 64
+      f_maps: 32
+      in_channels: 32
+      out_channels: 32
+    pos_encoding: sin_cos
+  decoder: simple_local_crop
+  decoder_kwargs:
+    sample_mode: bilinear # bilinear / nearest
+    hidden_size: 32
+  pos_encoding: sin_cos
+  c_dim: 32
+training:
+  out_dir: out/pointcloud_crop_training_testt
+  batch_size: 2
+  model_selection_metric: iou
+  model_selection_mode: maximize
+  print_every: 100
+  visualize_every: 10000
+  validate_every: 1000000000 # TODO: validation for crop training
+  checkpoint_every: 1000
+  backup_every: 10000
+  n_workers: 8
+  n_workers_val: 4
+test:
+  threshold: 0.005
+  eval_mesh: true
+  eval_pointcloud: false
+  model_file: model_best.pt
+generation:
+  generation_dir: generation
+  vis_n_outputs: 2
+  sliding_window: True
+  resolution_0: 64
+  upsampling_steps: 0

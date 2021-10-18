@@ -1,0 +1,16 @@
+inherit_from: configs/fusion/train_fusion.yaml
+data:
+  input_type: pointcloud_sequential
+  classes: ['scene_1', 'scene_2', 'scene_3', 'scene_4']
+  path: data/redwood_2017_preprocessed
+  pointcloud_noise: 0.000
+  points_subsample: 8192
+  grid_resolution: 24
+  input_vol: 1.2
+  query_vol: 1.0
+training:
+  out_dir: out_fusion/redwood
+  batch_size: 8
+  backbone_file: pretrained_models/backbone/shapenet_grid24_pe.pt
+
+

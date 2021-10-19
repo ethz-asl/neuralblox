@@ -1,5 +1,5 @@
 # NeuralBlox: Real-Time Neural Representation Fusion for Robust Volumetric Mapping
-
+[**Paper**](https://arxiv.org/abs/2110.09415) | [**Supplementary**](https://polybox.ethz.ch/index.php/s/PFelrDRddduLguP/download) 
 
 ![teaser](media/pipeline.png "teaser")
 

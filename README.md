@@ -1,25 +1,26 @@
 # NeuralBlox: Real-Time Neural Representation Fusion for Robust Volumetric Mapping
-[**Paper**](https://arxiv.org/abs/2110.09415) | [**Supplementary**](https://polybox.ethz.ch/index.php/s/PFelrDRddduLguP/download) 
+This repository contains **NeuralBlox**, our framework for volumetric mapping in latent neural representation space. 
 
 ![teaser](media/pipeline.png "teaser")
 
-This repository contains the implementation of the paper:
+# Table of Contents
+* [Paper](#Paper)
+* [Installation](#Installation)
+* [Demo](#Demo)
 
-NeuralBlox: Real-Time Neural Representation Fusion for Robust Volumetric Mapping  
-Stefan Lionar\*, Lukas Schmid\*, Cesar Cadena, Roland Siegwart, and Andrei Cramariuc  
-*International Conference on 3D Vision (3DV) 2021*  
-(\*equal contribution)
-
+## Paper
 If you find our code or paper useful, please consider citing us:
 
-```bibtex
-@inproceedings{lionar2021neuralblox,
- title = {NeuralBlox: Real-Time Neural Representation Fusion for Robust Volumetric Mapping},
- author={Stefan Lionar, Lukas Schmid, Cesar Cadena, Roland Siegwart, Andrei Cramariuc},
- booktitle = {International Conference on 3D Vision (3DV)},
- year = {2021}}
-```
-
+* Stefan Lionar\*, Lukas Schmid\*, Cesar Cadena, Roland Siegwart, and Andrei Cramariuc. "**NeuralBlox: Real-Time Neural Representation Fusion for Robust Volumetric Mapping**", International Conference on 3D Vision (3DV), 2021. (\* equal contribution)
+  \[[Paper](https://arxiv.org/abs/2110.09415) | [Supplementary](https://polybox.ethz.ch/index.php/s/PFelrDRddduLguP/download)\]
+  ```bibtex
+  @inproceedings{lionar2021neuralblox,
+   title = {NeuralBlox: Real-Time Neural Representation Fusion for Robust Volumetric Mapping},
+   author={Stefan Lionar, Lukas Schmid, Cesar Cadena, Roland Siegwart, Andrei Cramariuc},
+   booktitle = {International Conference on 3D Vision (3DV)},
+   year = {2021}}
+  }
+  ```
 
 ## Installation
 

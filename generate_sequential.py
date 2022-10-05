@@ -1,6 +1,7 @@
 import torch
 import os
 import argparse
+import pickle
 from src import config
 from src.checkpoints import CheckpointIO
 from src import layers
@@ -10,6 +11,7 @@ from tqdm import trange
 from os.path import join
 from src.common import define_align_matrix, get_shift_noise, get_yaw_noise_matrix
 from pathlib import Path
+from src.utils.visualize import visualize_voxels, visualize_pointcloud
 
 parser = argparse.ArgumentParser(
     description='Extract meshes from occupancy process.'
@@ -28,12 +30,16 @@ noise_shift_std = cfg['test']['scene']['noise']['shift']['shift_std']
 shift_on_gravity = cfg['test']['scene']['noise']['shift'].get("on_gravity", False)
 noise_yaw_std = cfg['test']['scene']['noise']['yaw_std']
 export_pc = cfg['test']['export_pointcloud']
+vis_scene = cfg["test"]["vis_scene"]
+out_name = cfg["test"]["out_name"]
+
+
 
 data_path = cfg['data']['path']
 intrinsics = cfg['data']['intrinsics']
 
 num_files = len(os.listdir(data_path))
-if num_files%2 != 0:
+if num_files % 2 != 0:
     num_files = num_files - 1
 
 num_frame = int(((len(os.listdir(data_path))) / 2 - 1) * cfg['data']['data_preprocessed_interval'])
@@ -47,7 +53,6 @@ else:
 
 out_dir = cfg['test']['out_dir']
 generation_dir = out_dir
-mesh_name = cfg['test']['out_name']
 
 # Model
 model = config.get_model(cfg, device=device)
@@ -91,6 +96,7 @@ for i in trange(0,num_frame, bound_interval):
 # Generate
 model.eval()
 model_merging.eval()
+# visualize_pointcloud(sample_points[0, :, :].numpy())
 generator = config.get_generator_fusion(model, model_merging, sample_points, cfg, device=device)
 
 if export_pc==True:
@@ -142,7 +148,7 @@ for i in trange(0,num_frame, interval):
 
     input_data = {}
     input_data['inputs'] = pcl_world.unsqueeze(0)
-
+    # visualize_pointcloud(pcl_world)
     if i == 0:
         print('\nEncode and fuse latent codes from {} frames'.format((num_processed_frame)))
     latent = generator.generate_latent(input_data)
@@ -150,18 +156,29 @@ for i in trange(0,num_frame, interval):
 latent = generator.update_all(latent)
 mesh, stats_dict, value_grid = generator.generate_mesh_from_neural_map(latent)
 
-print("Saving mesh")
-# Write output
-Path(os.path.join(generation_dir, 'mesh')).mkdir(parents= True, exist_ok=True)
-mesh_out_file = os.path.join(generation_dir, 'mesh','%s.off' % mesh_name)
+# SAM: Save Occ Map, Latent Code, Mesh & pcl & Visualize
+print("Saving data")
+Path(generation_dir).mkdir(parents=True, exist_ok=True)
+
+# Latent Code
+torch.save(latent, join(generation_dir, "latent", "{}.pt".format(out_name)))
+with open(join(generation_dir, "latent", "{}_dims.pkl".format(out_name)), 'wb') as outfile:
+    pickle.dump(generator.vol_bound, outfile)
+
+# Occupancy Map
+np.save(os.path.join(generation_dir, "occ_map", out_name), value_grid)
+if vis_scene:
+    visualize_voxels(np.round(1 / (1 + np.exp(-value_grid)), 4))
+
+# Mesh
+mesh_out_file = os.path.join(generation_dir, "mesh", '%s.off' % out_name)
 mesh.export(mesh_out_file)
 
-if export_pc == True:
-    print("Saving sampled point cloud")
-    sampled_index = np.random.permutation(len(sampled_pcl))[:2000000]
-    sampled_pcl = sampled_pcl[sampled_index]
-    pcd = o3d.geometry.PointCloud()
-    pcd.points = o3d.utility.Vector3dVector(sampled_pcl)
-    Path(os.path.join(generation_dir, 'ply')).mkdir(parents=True, exist_ok=True)
-    out_path = join(generation_dir, 'ply','%s.ply' % mesh_name)
-    o3d.io.write_point_cloud(out_path, pcd)
+# Point Cloud
+sampled_index = np.random.permutation(len(sampled_pcl))[:2000000]
+sampled_pcl = sampled_pcl[sampled_index]
+pcd = o3d.geometry.PointCloud()
+pcd.points = o3d.utility.Vector3dVector(sampled_pcl)
+
+out_path = join(generation_dir, 'pcl','%s.ply' % out_name)
+o3d.io.write_point_cloud(out_path, pcd)

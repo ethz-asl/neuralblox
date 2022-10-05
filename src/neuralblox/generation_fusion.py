@@ -113,7 +113,7 @@ class Generator3D(object):
             print("WARNING: no valid crop")
             return self.latent
 
-        if self.device =='cpu':
+        if self.device == torch.device("cpu"):
             for i in crop_list:
                 vol_bound = {}
                 vol_bound['query_vol'] = self.vol_bound['query_vol'][i]

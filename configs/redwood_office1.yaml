@@ -1,15 +1,15 @@
-inherit_from: configs/fusion/generate_fusion.yaml
+inherit_from: configs/generate_fusion.yaml
 data:
   input_type: pointcloud_crop
   classes: ['']
-  path: demo/redwood_apartment_13k
+  path: /home/sam/thesis/asldoc-2022-MT-Samuel-Neural-Planning/data/office1_depth
   intrinsics: null
-  data_preprocessed_interval: 30
+  data_preprocessed_interval: 1
   align:
-    deg_x: -35
-    deg_y: -32.6
+    deg_x: 0
+    deg_y: 0
     deg_z: 0
-    shift_vertical: 2.7
+    shift_vertical: 0
     is_flip: True
   pointcloud_sampling: 0.05
   pointcloud_noise: 0.000
@@ -20,8 +20,8 @@ test:
   threshold: 0.05
   model_file: pretrained_models/backbone/shapenet_grid24_pe.pt
   merging_model_file: pretrained_models/fusion/Window8_Reso24_AllScenes.pt
-  out_dir: out_mesh
-  out_name: demo-1voxel-25query
+  out_dir: /home/sam/thesis/asldoc-2022-MT-Samuel-Neural-Planning/data
+  out_name: office1_1.0_000_000
   scene:
     frame_sampling: 30
     noise:
@@ -29,7 +29,8 @@ test:
         shift_std: 0
         on_gravity: False
       yaw_std: 0
-  export_pointcloud: False
+  export_pointcloud: True
+  vis_scene: False
 generation:
   generation_dir: generation
   resolution_0: 25 # resolution for each crop

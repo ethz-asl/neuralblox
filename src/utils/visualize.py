@@ -2,6 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import src.common as common
+from vedo import Volume, show, Points
 
 
 def visualize_data(data, data_type, out_file):
@@ -22,7 +23,7 @@ def visualize_data(data, data_type, out_file):
         raise ValueError('Invalid data_type "%s"' % data_type)
 
 
-def visualize_voxels(voxels, out_file=None, show=False):
+def visualize_voxels(voxels):
     r''' Visualizes voxel data.
 
     Args:
@@ -30,26 +31,16 @@ def visualize_voxels(voxels, out_file=None, show=False):
         out_file (string): output file
         show (bool): whether the plot should be shown
     '''
-    # Use numpy
-    voxels = np.asarray(voxels)
-    # Create plot
-    fig = plt.figure()
-    ax = fig.gca(projection=Axes3D.name)
-    voxels = voxels.transpose(2, 0, 1)
-    ax.voxels(voxels, edgecolor='k')
-    ax.set_xlabel('Z')
-    ax.set_ylabel('X')
-    ax.set_zlabel('Y')
-    ax.view_init(elev=30, azim=45)
-    if out_file is not None:
-        plt.savefig(out_file)
-    if show:
-        plt.show()
-    plt.close(fig)
+    vol = Volume(voxels)
+    vol.addScalarBar3D()
+
+    lego = vol.legosurface(vmin=0.01, vmax=1)
+    lego.cmap('hot_r', vmin=0.01, vmax=1).addScalarBar3D()
+
+    show(lego).close()
 
 
-def visualize_pointcloud(points, normals=None,
-                         out_file=None, show=False):
+def visualize_pointcloud(pts):
     r''' Visualizes point cloud data.
 
     Args:
@@ -58,28 +49,5 @@ def visualize_pointcloud(points, normals=None,
         out_file (string): output file
         show (bool): whether the plot should be shown
     '''
-    # Use numpy
-    points = np.asarray(points)
-    # Create plot
-    fig = plt.figure()
-    ax = fig.gca(projection=Axes3D.name)
-    ax.scatter(points[:, 2], points[:, 0], points[:, 1])
-    if normals is not None:
-        ax.quiver(
-            points[:, 2], points[:, 0], points[:, 1],
-            normals[:, 2], normals[:, 0], normals[:, 1],
-            length=0.1, color='k'
-        )
-    ax.set_xlabel('Z')
-    ax.set_ylabel('X')
-    ax.set_zlabel('Y')
-    ax.set_xlim(-0.5, 0.5)
-    ax.set_ylim(-0.5, 0.5)
-    ax.set_zlim(-0.5, 0.5)
-    ax.view_init(elev=30, azim=45)
-    if out_file is not None:
-        plt.savefig(out_file)
-    if show:
-        plt.show()
-    plt.close(fig)
-
+    points = Points(pts)
+    show(points, axes=True)

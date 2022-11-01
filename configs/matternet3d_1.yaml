@@ -1,0 +1,38 @@
+inherit_from: configs/generate_fusion.yaml
+data:
+  input_type: pointcloud_crop
+  classes: ['']
+  path: /home/sam/thesis/matterport3D/17DRP5sb8fy/processed
+  intrinsics: null
+  data_preprocessed_interval: 1
+  align:
+    deg_x: 0
+    deg_y: 0
+    deg_z: 0
+    shift_vertical: 0
+    is_flip: False
+  pointcloud_sampling: 0.05
+  pointcloud_noise: 0.000
+  grid_resolution: 24
+  input_vol: 1.2 # in meter
+  query_vol: 1.0 # in meter
+test:
+  threshold: 0.05
+  model_file: pretrained_models/backbone/shapenet_grid24_pe.pt
+  merging_model_file: pretrained_models/fusion/Window8_Reso24_AllScenes.pt
+  out_dir: /home/sam/thesis/asldoc-2022-MT-Samuel-Neural-Planning/data
+  out_name: matterport3d_1.0_000_000
+  scene:
+    frame_sampling: 1
+    noise:
+      shift:
+        shift_std: 0
+        on_gravity: False
+      yaw_std: 0
+  export_pointcloud: True
+  vis_scene: False
+generation:
+  generation_dir: generation
+  resolution_0: 64 # resolution for each crop
+  voxel_threshold: 0.05
+  boundary_interpolation: False

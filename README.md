@@ -142,8 +142,8 @@ Else, if it contains RGB information, such as the output from Voxblox, run:
 python evaluate.py --color_mesh
 ```
 
-We provide the trimmed mesh used for the ground truth of our quantitative evaluation. It can be downloaded here:
-https://polybox.ethz.ch/index.php/s/gedC9YpQPMPiucU/download
+We provide the trimmed mesh used for the ground truth of our quantitative evaluation. It can be downloaded [here](https://drive.google.com/drive/folders/11MsRXgsNMlV1oH5sfuhKwkWSuT2odzNw?usp=share_link).
+
 
 Lastly, to evaluate prediction meshes with respect to the trimmed mesh as ground truth, run:
 ```

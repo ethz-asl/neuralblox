@@ -12,7 +12,7 @@ This repository contains **NeuralBlox**, our framework for volumetric mapping in
 If you find our code or paper useful, please consider citing us:
 
 * Stefan Lionar\*, Lukas Schmid\*, Cesar Cadena, Roland Siegwart, and Andrei Cramariuc. "**NeuralBlox: Real-Time Neural Representation Fusion for Robust Volumetric Mapping**", International Conference on 3D Vision (3DV), pp. 1279-1289, 2021. (\* equal contribution)
-  \[ [IEEE](https://ieeexplore.ieee.org/abstract/document/9665902) | [ArXiv](https://arxiv.org/abs/2110.09415) | [Supplementary](https://polybox.ethz.ch/index.php/s/PFelrDRddduLguP/download) \]
+  \[ [IEEE](https://ieeexplore.ieee.org/abstract/document/9665902) | [ArXiv](https://arxiv.org/abs/2110.09415) | [Supplementary](https://drive.google.com/file/d/1aoK41SgWYw4toiAoUfx6VCTiZftLw-7_/view?usp=share_link) \]
   ```bibtex
   @inproceedings{lionar2021neuralblox,
    title = {NeuralBlox: Real-Time Neural Representation Fusion for Robust Volumetric Mapping},

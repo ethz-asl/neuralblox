@@ -50,4 +50,4 @@ def visualize_pointcloud(pts):
         show (bool): whether the plot should be shown
     '''
     points = Points(pts)
-    show(points, axes=True)
+    show(points, axes=True).close()

@@ -6,7 +6,7 @@ data:
   intrinsics: null
   data_preprocessed_interval: 1
   align:
-    deg_x: 0
+    deg_x: -90
     deg_y: 0
     deg_z: 0
     shift_vertical: 0
